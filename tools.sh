@@ -8,7 +8,7 @@ sudo sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.
 # Use HTTPS
 # sudo sed -i 's/http:/https:/g' /etc/apt/sources.list
 echo "Updating apt package list and upgrading the packages..."
-sudo apt update && sudo apt upgrade
+sudo apt update && sudo apt upgrade -y
 if [[ $? -ne 0 ]]; then
     echo "Error during apt update and upgrade."
     exit 1
