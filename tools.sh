@@ -16,8 +16,8 @@ fi
 echo "Done."
 
 # Tools
-echo "Installing basic tools(net-tools, git, ripgrep, fd-find)..."
-sudo apt install -y net-tools git ripgrep fd-find
+echo "Installing basic tools(net-tools, git, ripgrep, fd-find, tmux)..."
+sudo apt install -y net-tools git ripgrep fd-find tmux
 if [[ $? -ne 0 ]]; then
     echo "Error during install basic tools."
     exit 1
