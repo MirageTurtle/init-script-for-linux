@@ -54,8 +54,15 @@ select_pkgs () {
     echo "${selected[@]}"
 }
 
-basic_tools=(net-tools git ripgrep fd-find tmux emacs)
+basic_tools=(net-tools netcat git tmux)
 selected=($(select_pkgs "${basic_tools[@]}"))
+cmd="sudo apt install -y ${selected[*]}"
+if [[ $? -ne 0 ]]; then
+    echo "Error during execute command $cmd"
+    exit 1
+fi
+personal_tools=(ripgrep fd-find emacs)
+selected=($(select_pkgs "${personal_tools[@]}"))
 cmd="sudo apt install -y ${selected[*]}"
 if [[ $? -ne 0 ]]; then
     echo "Error during execute command $cmd"
