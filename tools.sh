@@ -92,3 +92,4 @@ for tools in "${all_tools[@]}"; do
 	# TODO: Add user into docker group
 	unset if_docker
     fi
+done
