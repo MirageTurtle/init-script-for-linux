@@ -60,12 +60,13 @@ efficiency_tools=(tmux fzf ripgrep fd-find)
 program_tools=(emacs shellcheck)
 all_tools=("${basic_tools[@]}" "${network_tools[@]}" "${efficiency_tools[@]}" "${program_tools[@]}")
 for tools in "${all_tools[@]}"; do
+    selected=($(select_pkgs "${tools[@]}"))
     # special tool
-    if [[ ${selected[*]} =~ "*docker*" ]]; do
-        selected=($(select_pkgs "${tools[@]}"))
+    if [[ "${selected[*]}" =~ .*docker.* ]]; then
         unset selected[-1]
         selected+=(ca-certificates curl gnupg)
 	if_docker=true
+    fi
     cmd="sudo apt install -y ${selected[*]}"
     $cmd
     if [[ $? -ne 0 ]]; then
