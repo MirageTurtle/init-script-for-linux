@@ -22,7 +22,7 @@ select_pkgs () {
     local selected=()
     local option choice
     while true; do
-	read -r -p "The default packages list is ${options[*]}, do you want to select some specified packages?(y/n)" choice
+	read -r -p "The default packages list is ${options[*]}, do you want to select some specified packages?[y/n]" choice
 	case $choice in
 	    [Nn]|[Nn][Oo])
 		selected=("${options[@]}")
@@ -31,7 +31,7 @@ select_pkgs () {
 	    [Yy]|[Yy][Ee][Ss])
 		for option in "${options[@]}"; do
 		    while true; do
-			read -r -p "$option?(y/n)" choice
+			read -r -p "$option?[y/n]" choice
 			case $choice in
 			    [Yy]|[Yy][Ee][Ss])
 				selected+=("$option")
@@ -54,35 +54,40 @@ select_pkgs () {
     echo "${selected[@]}"
 }
 
-basic_tools=(net-tools netcat git tmux)
-selected=($(select_pkgs "${basic_tools[@]}"))
-cmd="sudo apt install -y ${selected[*]}"
-if [[ $? -ne 0 ]]; then
-    echo "Error during execute command $cmd"
-    exit 1
-fi
-personal_tools=(ripgrep fd-find emacs)
-selected=($(select_pkgs "${personal_tools[@]}"))
-cmd="sudo apt install -y ${selected[*]}"
-if [[ $? -ne 0 ]]; then
-    echo "Error during execute command $cmd"
-    exit 1
-fi
-if [[ "${selected[@]}" =~ emacs ]]; then
-    echo "Configging Emacs with my personal configuration..."
-    if [[ ! -d ~/.emacs.d ]]; then
-        mkdir -p ~/.emacs.d
-    fi
-    wget https://raw.githubusercontent.com/MirageTurtle/emacs-config/main/init.el -O ~/.emacs.d/init.el
+basic_tools=(curl wget git docker)
+network_tools=(net-tools tcpdump netcat)
+efficiency_tools=(tmux fzf ripgrep fd-find)
+program_tools=(emacs shellcheck)
+all_tools=("${basic_tools[@]}" "${network_tools[@]}" "${efficiency_tools[@]}" "${program_tools[@]}")
+for tools in "${all_tools[@]}"; do
+    # special tool
+    if [[ ${selected[*]} =~ "*docker*" ]]; do
+        selected=($(select_pkgs "${tools[@]}"))
+        unset selected[-1]
+        selected+=(ca-certificates curl gnupg)
+	if_docker=true
+    cmd="sudo apt install -y ${selected[*]}"
+    $cmd
     if [[ $? -ne 0 ]]; then
-        echo "Error during downloading Emacs configuration from Github."
+	echo "Error during execute $cmd"
+	# read -r -p "Continue?[y/n]" if_continue
+	# if [[ $if_continue =~ "Y|n"  ]]; then
+	#     continue
+	exit 1
     fi
-    echo "Emacs configuration succeed."
-fi
-programming_tools=(shellcheck)
-selected=($(select_pkgs "${programming_tools[@]}"))
-cmd="sudo apt install -y ${selected[*]}"
-if [[ $? -ne 0 ]]; then
-    echo "Error during execute command $cmd"
-    exit 1
-fi
+    if [[ if_docker = true ]]; then
+	# Add Docker's official GPG key
+	sudo install -m 0755 -d /etc/apt/keyrings
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+	sudo chmod a+r /etc/apt/keyrings/docker.gpg
+	# Set up the Docker repository
+	echo \
+	    "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  	    "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+	    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+	# Install Docker
+	sudo apt update
+	sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+	# TODO: Add user into docker group
+	unset if_docker
+    fi
