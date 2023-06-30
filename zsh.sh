@@ -29,9 +29,10 @@ fi
 
 if command -v git > /dev/null 2>&1
 then
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-    sed -i /^"plugins=("/s/")"/" zsh-syntax-highlighting zsh-autosuggestions)"/ ~/.zshrc
+    git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    git clone --depth 1 https://github.com/unixorn/fzf-zsh-plugin.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-zsh-plugin
+    sed -i /^"plugins=("/s/")"/" zsh-syntax-highlighting zsh-autosuggestions fzf-zsh-plugin)"/ ~/.zshrc
 else
     echo "Please install git first."
 fi
