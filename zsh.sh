@@ -46,7 +46,7 @@ echo "Plug-ins configuration finished."
 echo "Config Oh-my-zsh theme into powerlevel10k..."
 if command -v git > /dev/null 2>&1; then
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-    sed -i /'^ZSH_THEME="'/s/'^ZSH_THEME=".*"$'/'ZSH_THEME="powerlevel10k\/powerlevel10bk"'/ ~/.zshrc
+    sed -i /'^ZSH_THEME="'/s/'^ZSH_THEME=".*"$'/'ZSH_THEME="powerlevel10k\/powerlevel10k"'/ ~/.zshrc
 else
     echo "[ERROR]Please install git first."
     exit 1
