@@ -2,7 +2,7 @@
 
 # TODO: More elegently.
 
-echo "Changing the package source into USTC source..."
+echo "Changing the package source into USTC Mirror source..."
 # Change the package source of apt
 sudo sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list
 # Change the security source
@@ -15,7 +15,7 @@ if [[ $? -ne 0 ]]; then
     echo "Error during apt update and upgrade."
     exit 1
 fi
-echo "Done."
+echo "apt package list has updated."
 
 select_pkgs () {
     local options=("$@")
@@ -58,9 +58,12 @@ basic_tools=(curl wget git docker)
 network_tools=(net-tools tcpdump netcat)
 efficiency_tools=(tmux fzf ripgrep fd-find)
 program_tools=(emacs shellcheck)
-all_tools=("${basic_tools[@]}" "${network_tools[@]}" "${efficiency_tools[@]}" "${program_tools[@]}")
-for tools in "${all_tools[@]}"; do
-    selected=($(select_pkgs "${tools[@]}"))
+# all_tools=("${basic_tools[@]}" "${network_tools[@]}" "${efficiency_tools[@]}" "${program_tools[@]}")
+all_tools=(basic_tools network_tools efficiency_tools program_tools)
+for cate in "${all_tools[@]}"; do
+    echo "Installing $cate"
+    tools="$cate[@]"
+    selected=($(select_pkgs "${!tools}"))
     # special tool
     if [[ "${selected[*]}" =~ .*docker.* ]]; then
         unset selected[-1]
@@ -76,7 +79,7 @@ for tools in "${all_tools[@]}"; do
 	#     continue
 	exit 1
     fi
-    if [[ if_docker = true ]]; then
+    if [[ $if_docker = true ]]; then
 	# Add Docker's official GPG key
 	sudo install -m 0755 -d /etc/apt/keyrings
 	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
