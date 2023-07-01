@@ -4,7 +4,7 @@ TEMP=`getopt -o r:l: --long remote-url:,local-dir: -- "$@"`
 eval set -- "$TEMP"
 
 remote_url="https://github.com/MirageTurtle/dotfiles.git"
-local_dir="~/repo"
+local_dir="$HOME/repo"
 
 while true; do
     case "$1" in
@@ -32,14 +32,14 @@ if [[ ! -d $local_dir ]]; then
     exit 2
 fi
 
-if [[ ! -d ~/.config ]]; then
-    read -r -p "No ~/.config directory, create one?[y/n]" choice
+if [[ ! -d $HOME/.config ]]; then
+    read -r -p "No $HOME/.config directory, create one?[y/n]" choice
     case $choice in
 	[Yy]|[Yy][Ee][Ss])
-	    mkdir ~/.config/
+	    mkdir $HOME/.config/
 	    ;;
 	*)
-	    echo "No ~/.config directory, exit."
+	    echo "No $HOME/.config directory, exit."
 	    exit 0
 	    ;;
     esac
@@ -51,8 +51,8 @@ echo "Repo cloned, symlinking starts."
 read -r -p "Symlink tmux configurations?[y/n]" choice
 case $choice in
     [Yy]|[Yy][Ee][Ss])
-	mkdir -p ~/.config/tmux
-	ln -s $local_dir/dotfiles/.config/tmux/* ~/.config/tmux/
+	mkdir -p $HOME/.config/tmux
+	ln -s $local_dir/dotfiles/.config/tmux/* $HOME/.config/tmux/
 	;;
     *)
 	;;
@@ -60,8 +60,8 @@ esac
 read -r -p "Symlink emacs configurations?[y/n]" choice
 case $choice in
     [Yy]|[Yy][Ee][Ss])
-	mkdir -p ~/.config/emacs
-	ln -s $local_dir/dotfiles/.config/emacs/* ~/.config/emacs
+	mkdir -p $HOME/.config/emacs
+	ln -s $local_dir/dotfiles/.config/emacs/* $HOME/.config/emacs
 	;;
     *)
 	;;
