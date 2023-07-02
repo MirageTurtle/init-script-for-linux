@@ -54,8 +54,8 @@ echo "Repo cloned, symlinking starts."
 read -r -p "Symlink tmux configurations?[y/n]" choice
 case $choice in
     [Yy]|[Yy][Ee][Ss])
-	mkdir -p $HOME/.config/tmux
-	ln -s $local_dir/dotfiles/.config/tmux/* $HOME/.config/tmux/
+	# mkdir -p $HOME/.config/tmux
+	ln -s $local_dir/dotfiles/.config/tmux $HOME/.config
 	;;
     *)
 	;;
