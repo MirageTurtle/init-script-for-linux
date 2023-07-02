@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# TODO:
+# 1. Add situation about existing of the repo.
+
 TEMP=`getopt -o r:l: --long remote-url:,local-dir: -- "$@"`
 eval set -- "$TEMP"
 
@@ -60,8 +63,8 @@ esac
 read -r -p "Symlink emacs configurations?[y/n]" choice
 case $choice in
     [Yy]|[Yy][Ee][Ss])
-	mkdir -p $HOME/.config/emacs
-	ln -s $local_dir/dotfiles/.config/emacs/* $HOME/.config/emacs
+	mkdir -p $HOME/.emacs.d/
+	ln -s $local_dir/dotfiles/.emacs.d/* $HOME/.emacs.d/
 	;;
     *)
 	;;
