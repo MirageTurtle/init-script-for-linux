@@ -4,13 +4,12 @@
 # 1. using $SHELL to check the default shell is not credible.
 # 2. if the zsh is installed, the install should be passed.
 # 3. extract the requirements into a function, curl/wget, git, ...
-# 4. input /usr/bin/zsh to `chsh`.
-# 5. update my personal powerlevel10k config.
+# 4. update my personal powerlevel10k config.
 
 if [[ ! `echo $SHELL` =~ (/usr)?/bin/zsh ]]; then
     echo "The default shell is $(echo $SHELL), will config default shell to zsh"
     sudo apt install -y zsh
-    chsh
+    chsh <<< "/usr/bin/zsh"
 fi
 
 ohmyzsh_folder="${HOME}/.oh-my-zsh/"
