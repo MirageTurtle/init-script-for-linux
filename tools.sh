@@ -56,8 +56,8 @@ select_pkgs () {
 
 basic_tools=(curl wget git docker)
 network_tools=(net-tools tcpdump netcat)
-efficiency_tools=(tmux fzf ripgrep fd-find)
-program_tools=(emacs shellcheck)
+efficiency_tools=(tmux fzf ripgrep fd-find jq)
+program_tools=(emacs shellcheck ipython)
 # all_tools=("${basic_tools[@]}" "${network_tools[@]}" "${efficiency_tools[@]}" "${program_tools[@]}")
 all_tools=(basic_tools network_tools efficiency_tools program_tools)
 for cate in "${all_tools[@]}"; do
@@ -66,6 +66,7 @@ for cate in "${all_tools[@]}"; do
     selected=($(select_pkgs "${!tools}"))
     # special tool
     if [[ "${selected[*]}" =~ .*docker.* ]]; then
+	# TODO: if the last one is not docker. 
         unset selected[-1]
         selected+=(ca-certificates curl gnupg)
 	if_docker=true
