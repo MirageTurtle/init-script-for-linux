@@ -2,13 +2,26 @@
 
 # TODO: More elegently.
 
-echo "Changing the package source into USTC Mirror source..."
-# Change the package source of apt
-sudo sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list
-# Change the security source
-# sudo sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
-# Use HTTPS
-# sudo sed -i 's/http:/https:/g' /etc/apt/sources.list
+
+read -r -p "Change package source into USTC Mirror source?[y/n]" choice
+case $choice in
+    [Yy]|[Yy][Ee][Ss])
+	echo "Changing the package source into USTC Mirror source..."
+	# Change the package source of apt
+	sudo sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list
+	# Change the security source
+	# sudo sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+	# Use HTTPS
+	# sudo sed -i 's/http:/https:/g' /etc/apt/sources.list
+	break
+	;;
+    [Nn]|[Nn][Oo])
+	break
+	;;
+    *)
+	;;
+esac
+
 echo "Updating apt package list and upgrading the packages..."
 sudo apt update && sudo apt upgrade -y
 if [[ $? -ne 0 ]]; then
