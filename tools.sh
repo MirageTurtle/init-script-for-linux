@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # TODO: More elegently.
+# TODO: Fix the installation of exa.
 
 
 read -r -p "Change package source into USTC Mirror source?[y/n]" choice
