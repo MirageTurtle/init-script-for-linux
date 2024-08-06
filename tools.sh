@@ -68,7 +68,7 @@ select_pkgs () {
     echo "${selected[@]}"
 }
 
-basic_tools=(curl wget git docker exa)
+basic_tools=(curl wget git docker eza)
 network_tools=(net-tools tcpdump netcat)
 efficiency_tools=(tmux fzf ripgrep fd-find jq)
 program_tools=(emacs shellcheck ipython)
