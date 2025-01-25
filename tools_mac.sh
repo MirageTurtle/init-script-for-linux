@@ -49,7 +49,8 @@ if_exists_install() {
 basic_tools=(curl wget git zsh tmux)
 modern_unix_tools=(eza bat delta fd ripgrep tldr fd jq)
 gnu_tools=(gnu-sed gnu-tar coreutils)
-fonts=(font-meslo-for-powerlevel10k font-jetbrains-mono font-lxgw-wenkai font-hack-nerd-font)
+# fonts=(font-meslo-for-powerlevel10k font-jetbrains-mono font-lxgw-wenkai font-hack-nerd-font)
+fonts=(font-jetbrains-mono-nerd-font font-lxgw-wenkai)
 personal_tools=(bclm)
 all_tools=(basic_tools modern_unix_tools gnu_tools fonts personal_tools)
 for category in ${all_tools[@]}; do
